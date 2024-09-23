@@ -1,9 +1,11 @@
-﻿namespace DictionariesTask
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace DictionariesTask
 {
     internal class Program
     {
         static Dictionary<string, HashSet<string>> Courses = new Dictionary<string, HashSet<string>>(10);
-        static List<(string,string)> waitlist = new List<(string,string)> ();
+        static List<(string, string)> waitlist = new List<(string, string)>();
         static void Main(string[] args)
         {
             bool flge = false;
@@ -30,6 +32,7 @@
                         break;
 
                     case 2:
+                        RemoveCourse();
                         break;
 
                     case 3:
@@ -52,7 +55,7 @@
                 Console.WriteLine("--------------------------------------------------");
                 Console.WriteLine("\nPress 1 if you want to Continue..");
                 string cont = Console.ReadLine();
-                if(cont != "1")
+                if (cont != "1")
                 {
                     Console.WriteLine("******************Thank You******************");
                     flge = false;
@@ -60,24 +63,25 @@
                 else
                     flge = true;
 
-            } while (flge== true);
+            } while (flge == true);
 
         }
 
+        //Add a new course: Add a course code to the dictionary if it doesn't exist already.
         static void AddNewCourse()
         {
             Console.Clear();
             Console.WriteLine("\t****************Add New Course****************\n");
-            bool flag =false;
+            bool flag = false;
             do
             {
                 Console.WriteLine("Enter Course Code ");
-                string courseCode = Console.ReadLine().ToLower();
+                string courseCode = Console.ReadLine().ToUpper();
 
-                if (!Courses.ContainsKey(courseCode.ToLower()))
+                if (!Courses.ContainsKey(courseCode.ToUpper()))
                 {
                     Courses[courseCode] = new HashSet<string>();
-                    Console.WriteLine("\n"+courseCode.ToUpper()+ " Added");
+                    Console.WriteLine("\n" + courseCode.ToUpper() + " Added");
                     Console.WriteLine("------------------------------------------------");
                 }
                 else
@@ -95,9 +99,57 @@
                 else
                     flag = true;
 
-            } while (flag ==true);
-         
+            } while (flag == true);
+
         }
+        //Remove Course : remove a course from list if it not having enrolled students
+        static void RemoveCourse()
+        {
+            bool flag = false;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("\t****************Remove Course****************\n");
+                Console.WriteLine("\nEnter Course Code ");
+                Console.WriteLine("\n************************************************");
+                foreach (string course_Code in Courses.Keys)
+                {
+
+                    Console.WriteLine(course_Code.ToUpper());
+                }
+                Console.WriteLine("************************************************\n");
+                string courseCode = Console.ReadLine().ToUpper();
+                if (Courses.ContainsKey(courseCode))
+                {
+                    if (Courses[courseCode].Count != 0)
+                    {
+                        Console.WriteLine("\nThis Course having enrolled students.. ");
+                    }
+                    else
+                    {
+                        Courses.Remove(courseCode);
+                        Console.WriteLine("\n" + courseCode.ToUpper() + " Removed");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("This Course dose not exist..");
+                }
+                   
+                Console.WriteLine("\nEnter 1 if you want to Remove Another Course ");
+                string cont = Console.ReadLine();
+                if (cont != "1")
+                {
+                    Console.WriteLine("\n******************Thank You******************");
+                    flag = false;
+                }
+                else
+                    flag = true;
+
+            } while (flag == true);
+            
+        }
+
 
 
 
