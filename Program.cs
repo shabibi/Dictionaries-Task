@@ -26,6 +26,7 @@
                 switch (choice)
                 {
                     case 1:
+                        AddNewCourse();
                         break;
 
                     case 2:
@@ -49,11 +50,11 @@
                         break;
                 }
                 Console.WriteLine("--------------------------------------------------");
-                Console.WriteLine("\nPress 1 if you want to Enter another choise..");
+                Console.WriteLine("\nPress 1 if you want to Continue..");
                 string cont = Console.ReadLine();
                 if(cont != "1")
                 {
-                    Console.WriteLine("Thank You");
+                    Console.WriteLine("******************Thank You******************");
                     flge = false;
                 }
                 else
@@ -62,6 +63,44 @@
             } while (flge== true);
 
         }
+
+        static void AddNewCourse()
+        {
+            Console.Clear();
+            Console.WriteLine("\t****************Add New Course****************\n");
+            bool flag =false;
+            do
+            {
+                Console.WriteLine("Enter Course Code ");
+                string courseCode = Console.ReadLine().ToLower();
+
+                if (!Courses.ContainsKey(courseCode.ToLower()))
+                {
+                    Courses[courseCode] = new HashSet<string>();
+                    Console.WriteLine("\n"+courseCode.ToUpper()+ " Added");
+                    Console.WriteLine("------------------------------------------------");
+                }
+                else
+                {
+                    Console.WriteLine("\nThis Course Code is exists");
+                    Console.WriteLine("------------------------------------------------");
+                }
+                Console.WriteLine("\nEnter 1 if you want to Add Another Course ");
+                string cont = Console.ReadLine();
+                if (cont != "1")
+                {
+                    Console.WriteLine("\n******************Thank You******************");
+                    flag = false;
+                }
+                else
+                    flag = true;
+
+            } while (flag ==true);
+         
+        }
+
+
+
         static int handelIntError(string input)
         {
             int num;
