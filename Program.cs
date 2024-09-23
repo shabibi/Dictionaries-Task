@@ -4,7 +4,8 @@ namespace DictionariesTask
 {
     internal class Program
     {
-        static Dictionary<string, HashSet<string>> Courses = new Dictionary<string, HashSet<string>>(10);
+        static Dictionary<string, HashSet<string>> Courses = new Dictionary<string, HashSet<string>>(3);
+        //static HashSet<string> studentsName = new HashSet<string>();
         static List<(string, string)> waitlist = new List<(string, string)>();
         static void Main(string[] args)
         {
@@ -36,6 +37,7 @@ namespace DictionariesTask
                         break;
 
                     case 3:
+                        EnrollStudentCourse();
                         break;
                     case 4:
                         break;
@@ -150,7 +152,74 @@ namespace DictionariesTask
             
         }
 
+        //Enroll a student in a course: Given a student's name and course code, enroll the student in that course
+        static void EnrollStudentCourse()
+        {
+            
+            string student, course_Code;
+            bool flag = false;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("\t****************Enroll a student in a course****************\n");
+                Console.WriteLine("\nEnter Course Code ");
+                Console.WriteLine("\n************************************************");
+                foreach (string courseCode in Courses.Keys)
+                {
 
+                    Console.WriteLine(courseCode.ToUpper());
+                }
+                Console.WriteLine("************************************************\n");
+                course_Code = Console.ReadLine().ToUpper();
+                if (Courses.ContainsKey(course_Code))
+                {
+                    if (Courses[course_Code].Count < 3)
+                    {
+                        Console.WriteLine("Enter Student Name ");
+                        student = Console.ReadLine().ToLower();
+                        if (!Courses[course_Code].Contains(student))
+                        {
+                            Courses[course_Code].Add(student);
+                            Console.WriteLine(student + " Added Successfully");
+                        }
+                        else
+                        {
+                            Console.WriteLine("This Student is Enrolled in this course");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nThis Course is Full..\nAdding to Waiting List..");
+                        Console.WriteLine("\nEnter Student Name ");
+                        student = Console.ReadLine().ToLower();
+                        if (!Courses[course_Code].Contains(student))
+                        {
+                            waitlist.Add((course_Code, student));
+                            Console.WriteLine(student + " Added to Waiting List Successfully");
+                        }
+                        else
+                        {
+                            Console.WriteLine("This Student is Enrolled in this course");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("This Course dose not exist..");
+                }
+
+                Console.WriteLine("\nEnter 1 if you want to Add Another Student ");
+                    string cont = Console.ReadLine();
+                    if (cont != "1")
+                    {
+                        Console.WriteLine("\n******************Thank You******************");
+                        flag = false;
+                    }
+                    else
+                        flag = true;
+            } while (flag == true);
+
+        }
 
 
         static int handelIntError(string input)
