@@ -400,6 +400,13 @@ namespace DictionariesTask
                     course.Value.Remove(student);
                 }
             }
+            for (int i = 0; i < waitlist.Count; i++)
+            {
+                if (waitlist[i].studentName == student)
+                {
+                    waitlist.RemoveAt(i);
+                }
+            }
 
             Console.WriteLine(student +" Removed from all courses");
 
