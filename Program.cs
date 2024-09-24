@@ -9,6 +9,7 @@ namespace DictionariesTask
         static List<(string, string)> waitlist = new List<(string, string)>();
         static void Main(string[] args)
         {
+            InitializeStartupData();
             bool flge = false;
             do
             {
@@ -46,6 +47,7 @@ namespace DictionariesTask
                         DisplayAllStudentsInCourse();
                         break;
                     case 6:
+                        DisplayAllCoursesAndTheirStudents();
                         break;
                     case 7:
                         break;
@@ -286,7 +288,7 @@ namespace DictionariesTask
         static void DisplayAllStudentsInCourse()
         {
             Console.Clear();
-            Console.WriteLine("\t****************Remove a student from a course****************\n");
+            Console.WriteLine("\t****************Display all students in a course****************\n");
             Console.WriteLine("\nEnter Course Code ");
             Console.WriteLine("\n************************************************");
             foreach (var courseCode in Courses.Keys)
@@ -318,6 +320,22 @@ namespace DictionariesTask
             else
                 Console.WriteLine("This Course dose not exist..");
         }
+
+        static void DisplayAllCoursesAndTheirStudents()
+        {
+            Console.Clear();
+            Console.WriteLine("\t****************Display all students in a course****************\n");
+            Console.WriteLine("\n************************************************");
+            foreach (var courseCode in Courses.Keys)
+            {
+                Console.WriteLine("Corse Code: "+ courseCode.ToString());
+                Console.WriteLine("************************************************");
+                Console.WriteLine("List of Students Enrolled in "+courseCode.ToString());
+                foreach (string student in Courses[courseCode])
+                    Console.WriteLine(student.ToString());
+                Console.WriteLine("************************************************\n");
+            }
+    }
             static int handelIntError(string input)
         {
             int num;
@@ -337,6 +355,23 @@ namespace DictionariesTask
                 }
             } while (flag == true);
             return num;
+        }
+
+        static void InitializeStartupData()
+        {
+            // Example data: Courses and their enrolled students (cross-over students)
+            Courses["CS101"] = new HashSet<string> { "Alice", "Bob", "Charlie" };   // CS101 has Alice, Bob, Charlie
+            Courses["MATH202"] = new HashSet<string> { "David", "Eva", "Bob" };     // MATH202 has David, Eva, and Bob (cross-over with CS101)
+            Courses["ENG303"] = new HashSet<string> { "Frank", "Grace", "Charlie" };// ENG303 has Frank, Grace, and Charlie (cross-over with CS101)
+            Courses["BIO404"] = new HashSet<string> { "Ivy", "Jack", "David" };     // BIO404 has Ivy, Jack, and David (cross-over with MATH202)
+                                                                                    // Set course capacities (varying)
+         
+                                             // Waitlist for courses (students waiting to enroll in full courses)
+            waitlist.Add(("Helen", "CS101"));   // Helen waiting for CS101
+            waitlist.Add(("Jack", "ENG303"));   // Jack waiting for ENG303
+            waitlist.Add(("Alice", "BIO404"));  // Alice waiting for BIO404
+            waitlist.Add(("Eva", "ENG303"));    // Eva waiting for ENG303
+            Console.WriteLine("Startup data initialized.");
         }
     }
 }
