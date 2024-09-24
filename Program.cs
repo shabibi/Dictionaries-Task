@@ -25,6 +25,7 @@ namespace DictionariesTask
                 Console.WriteLine(" 6.Display all courses and their students\n");
                 Console.WriteLine(" 7.Find courses with common students\n");
                 Console.WriteLine(" 8.Withdraw a Student from All Courses\n");
+                Console.WriteLine(" 9.Exit\n");
                 int choice = handelIntError(Console.ReadLine());
 
                 switch (choice)
@@ -55,7 +56,9 @@ namespace DictionariesTask
                     case 8:
                         WithdrawStudentFromAllCourses();
                         break;
-
+                    case 9:
+                        return;
+                        break;
                     default:
                         Console.WriteLine("Invalid Input..");
                         break;
