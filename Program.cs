@@ -43,6 +43,7 @@ namespace DictionariesTask
                         RemoveStudentFromCourse();
                         break;
                     case 5:
+                        DisplayAllStudentsInCourse();
                         break;
                     case 6:
                         break;
@@ -56,7 +57,7 @@ namespace DictionariesTask
                         break;
                 }
                 Console.WriteLine("--------------------------------------------------");
-                Console.WriteLine("\nPress 1 if you want to Continue..");
+                Console.WriteLine("\nPress 1 if you want to Display Main Menu..");
                 string cont = Console.ReadLine();
                 if (cont != "1")
                 {
@@ -281,10 +282,43 @@ namespace DictionariesTask
             
         }
 
+        //Display a list of all students enrolled in a specific course.
+        static void DisplayAllStudentsInCourse()
+        {
+            Console.Clear();
+            Console.WriteLine("\t****************Remove a student from a course****************\n");
+            Console.WriteLine("\nEnter Course Code ");
+            Console.WriteLine("\n************************************************");
+            foreach (var courseCode in Courses.Keys)
+            {
+                Console.WriteLine(courseCode.ToString());
+            }
+            Console.WriteLine("************************************************\n");
+            string Course_code = Console.ReadLine().ToUpper();
+            if (Courses.ContainsKey(Course_code))
+            {
+                if (Courses[Course_code].Count() > 0)
+                {
+                    Console.WriteLine("\n************************************************");
+                    Console.WriteLine("List of Students Enrolled in This Couse ");
 
-
-
-        static int handelIntError(string input)
+                    foreach (var courseCode in Courses)
+                    {
+                        var students = courseCode.Value;
+                        foreach (string stud in students)
+                            Console.WriteLine(stud.ToString());
+                    }
+                    Console.WriteLine("************************************************\n");
+                }
+                else
+                {
+                    Console.WriteLine("This Course has no Students");
+                }
+            }
+            else
+                Console.WriteLine("This Course dose not exist..");
+        }
+            static int handelIntError(string input)
         {
             int num;
             bool flag = true;
