@@ -25,7 +25,8 @@ namespace DictionariesTask
                 Console.WriteLine(" 6.Display all courses and their students\n");
                 Console.WriteLine(" 7.Find courses with common students\n");
                 Console.WriteLine(" 8.Withdraw a Student from All Courses\n");
-                Console.WriteLine(" 9.Exit\n");
+                Console.WriteLine(" 9.Display Waiting List\n");
+                Console.WriteLine(" 10.Exit\n");
                 int choice = handelIntError(Console.ReadLine());
 
                 switch (choice)
@@ -57,6 +58,9 @@ namespace DictionariesTask
                         WithdrawStudentFromAllCourses();
                         break;
                     case 9:
+                        DisplayWaitingList();
+                        break;
+                    case 10:
                         return;
                         break;
                     default:
@@ -422,6 +426,17 @@ namespace DictionariesTask
             return num;
         }
 
+        static void DisplayWaitingList()
+        {
+            Console.Clear();
+            Console.WriteLine("\t****************Display Waiting List****************\n");
+            Console.WriteLine( "Course\tStudent" );
+            Console.WriteLine("---------------------------------------------------");
+            for (int i = 0; i < waitlist.Count; i++)
+            {
+                Console.WriteLine(waitlist[i].course + "\t" + waitlist[i].studentName);
+            }
+        }
         static void InitializeStartupData()
         {
             // Example data: Courses and their enrolled students (cross-over students)
