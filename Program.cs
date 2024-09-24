@@ -5,7 +5,7 @@ namespace DictionariesTask
     internal class Program
     {
         static Dictionary<string, HashSet<string>> Courses = new Dictionary<string, HashSet<string>>(3);
-        //static HashSet<string> studentsName = new HashSet<string>();
+ 
         static List<(string, string)> waitlist = new List<(string, string)>();
         static void Main(string[] args)
         {
@@ -40,6 +40,7 @@ namespace DictionariesTask
                         EnrollStudentCourse();
                         break;
                     case 4:
+                        RemoveStudentFromCourse();
                         break;
                     case 5:
                         break;
@@ -220,6 +221,67 @@ namespace DictionariesTask
             } while (flag == true);
 
         }
+
+        //Remove a student from the course.
+        static void RemoveStudentFromCourse()
+        {
+            bool flag = false;
+            string student;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("\t****************Remove a student from a course****************\n");
+                Console.WriteLine("\nEnter Course Code ");
+                Console.WriteLine("\n************************************************");
+                foreach (var courseCode in Courses.Keys)
+                {
+                    Console.WriteLine(courseCode.ToString());
+                }
+                Console.WriteLine("************************************************\n");
+                string Course_code = Console.ReadLine().ToUpper();
+                if (Courses.ContainsKey(Course_code))
+                {
+                    Console.WriteLine("\n************************************************");
+                    Console.WriteLine("List of Students Enrolled in This Couse ");
+        
+                    foreach (var courseCode in Courses)
+                    {
+                        var students = courseCode.Value;
+                        foreach (string stud in students)
+                            Console.WriteLine(stud.ToString());
+                    }
+                    Console.WriteLine("************************************************\n");
+                    Console.WriteLine("Enter Student Name ");
+                    student = Console.ReadLine().ToLower();
+                    if (Courses[Course_code].Contains(student))
+                    {
+                        Courses[Course_code].Remove(student);
+                        Console.WriteLine(student + " Removed Successfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("This Student is not Enrolled in this course");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("This Course dose not exist..");
+                }
+                Console.WriteLine("\nEnter 1 if you want to Add Another Student ");
+                string cont = Console.ReadLine();
+                if (cont != "1")
+                {
+                    Console.WriteLine("\n******************Thank You******************");
+                    flag = false;
+                }
+                else
+                    flag = true;
+
+            } while (flag==true);
+            
+        }
+
+
 
 
         static int handelIntError(string input)
