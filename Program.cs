@@ -4,7 +4,7 @@ namespace DictionariesTask
 {
     internal class Program
     {
-        static Dictionary<string, HashSet<string>> Courses = new Dictionary<string, HashSet<string>>(3);
+        static Dictionary<string, HashSet<string>> Courses = new Dictionary<string, HashSet<string>>();
  
         static List<(string studentName , string course)> waitlist = new List<(string, string)>();
         static void Main(string[] args)
@@ -95,7 +95,7 @@ namespace DictionariesTask
 
                 if (!Courses.ContainsKey(courseCode.ToUpper()))
                 {
-                    Courses[courseCode] = new HashSet<string>();
+                    Courses[courseCode] = new HashSet<string>(3);
                     Console.WriteLine("\n" + courseCode.ToUpper() + " Added");
                     Console.WriteLine("------------------------------------------------");
                 }
@@ -186,7 +186,8 @@ namespace DictionariesTask
                 course_Code = Console.ReadLine().ToUpper();
                 if (Courses.ContainsKey(course_Code))
                 {
-                    if (Courses[course_Code].Count < 3)
+                    
+                    if (Courses[course_Code].Count <3)
                     {
                         Console.WriteLine("Enter Student Name ");
                         student = Console.ReadLine().ToLower();
@@ -207,7 +208,7 @@ namespace DictionariesTask
                         student = Console.ReadLine().ToLower();
                         if (!Courses[course_Code].Contains(student))
                         {
-                            waitlist.Add((course_Code, student));
+                            waitlist.Add(( student, course_Code));
                             Console.WriteLine(student + " Added to Waiting List Successfully");
                         }
                         else
@@ -270,7 +271,9 @@ namespace DictionariesTask
                             if(Course_code == waitlist[i].course)
                             {
                                 Courses[Course_code].Add(waitlist[i].studentName);
+                               
                                 Console.WriteLine(waitlist[i].studentName + " Added from waiting list to " + Course_code.ToUpper());
+                                waitlist.RemoveAt(i);
                                 return;
                             }
                         }
@@ -398,18 +401,21 @@ namespace DictionariesTask
                 if (course.Value.Contains(student))
                 {
                     course.Value.Remove(student);
+                    for (int i = 0; i < waitlist.Count; i++)
+                    {
+                        if (course.Key.ToString() == waitlist[i].course)
+                        {
+                            course.Value.Add(waitlist[i].studentName);
+                            
+                            Console.WriteLine(waitlist[i].studentName + " Added from waiting list to " + course.Key.ToString());
+                            waitlist.RemoveAt(i);
+                        }
+                    }
                 }
             }
-            for (int i = 0; i < waitlist.Count; i++)
-            {
-                if (waitlist[i].studentName == student)
-                {
-                    waitlist.RemoveAt(i);
-                }
-            }
+           
 
             Console.WriteLine(student +" Removed from all courses");
-
         }
 
         static int handelIntError(string input)
@@ -458,6 +464,7 @@ namespace DictionariesTask
             waitlist.Add(("Jack", "ENG303"));   // Jack waiting for ENG303
             waitlist.Add(("Alice", "BIO404"));  // Alice waiting for BIO404
             waitlist.Add(("Eva", "ENG303"));    // Eva waiting for ENG303
+            waitlist.Add(("Karim", "MATH202"));    // Eva waiting for ENG303
             Console.WriteLine("Startup data initialized.");
         }
     }
