@@ -50,8 +50,10 @@ namespace DictionariesTask
                         DisplayAllCoursesAndTheirStudents();
                         break;
                     case 7:
+                        FindCoursesWithCommonStudents(); 
                         break;
                     case 8:
+                        WithdrawStudentFromAllCourses();
                         break;
 
                     default:
@@ -288,7 +290,7 @@ namespace DictionariesTask
         static void DisplayAllStudentsInCourse()
         {
             Console.Clear();
-            Console.WriteLine("\t****************Display all students in a course****************\n");
+            Console.WriteLine("\t****************Display all courses and their students****************\n");
             Console.WriteLine("\nEnter Course Code ");
             Console.WriteLine("\n************************************************");
             foreach (var courseCode in Courses.Keys)
@@ -320,7 +322,7 @@ namespace DictionariesTask
             else
                 Console.WriteLine("This Course dose not exist..");
         }
-
+        //Print a list of all courses along with the students enrolled in each course.
         static void DisplayAllCoursesAndTheirStudents()
         {
             Console.Clear();
@@ -336,7 +338,65 @@ namespace DictionariesTask
                 Console.WriteLine("************************************************\n");
             }
     }
-            static int handelIntError(string input)
+
+        //Given two course codes, find the students who are enrolled in both courses
+        static void FindCoursesWithCommonStudents()
+        {
+            Console.Clear();
+            Console.WriteLine("\t****************Find courses with common students****************\n");
+            Console.WriteLine("\nEnter two Courses Code ");
+            Console.WriteLine("\n************************************************");
+            foreach (var courseCode in Courses.Keys)
+            {
+                Console.WriteLine(courseCode.ToString());
+            }
+            Console.WriteLine("************************************************\n");
+            string course1 = Console.ReadLine().ToUpper();
+            string course2 = Console.ReadLine().ToUpper();
+
+            if (Courses.Keys.Contains(course1) && Courses.Keys.Contains(course2))
+            {
+                HashSet<string> course1Students = Courses[course1];
+                HashSet<string> course2Students = Courses[course2];
+                HashSet<string> commenStudents = new HashSet<string>(course1Students);
+                commenStudents.IntersectWith(course2Students);
+                if (commenStudents.Count > 0)
+                {
+                    Console.WriteLine("Studens Enrolled in " + course1 + " and " + course2);
+                    foreach (var student in commenStudents)
+                    {
+                        Console.WriteLine(student.ToString());
+                    }
+                }
+                else
+                    Console.WriteLine("No Student has enrolled in this courses");
+            }
+            else
+            {
+                Console.WriteLine("This Course dose not exist..");
+            }
+            
+        }
+
+        static void WithdrawStudentFromAllCourses()
+        {
+            Console.Clear();
+            Console.WriteLine("\t****************Withdraw a Student from All Courses****************\n");
+            Console.WriteLine("\nEnter Student Nmae ");
+            string student = Console.ReadLine();
+            foreach (var course in Courses)
+            {
+                if (course.Value.Contains(student))
+                {
+                    course.Value.Remove(student);
+                }
+            }
+
+            Console.WriteLine(student +" Removed from all courses");
+
+        }
+
+        static int handelIntError(string input)
         {
             int num;
             bool flag = true;
