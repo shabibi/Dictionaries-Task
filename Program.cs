@@ -6,7 +6,7 @@ namespace DictionariesTask
     {
         static Dictionary<string, HashSet<string>> Courses = new Dictionary<string, HashSet<string>>(3);
  
-        static List<(string, string)> waitlist = new List<(string, string)>();
+        static List<(string studentName , string course)> waitlist = new List<(string, string)>();
         static void Main(string[] args)
         {
             InitializeStartupData();
@@ -244,24 +244,29 @@ namespace DictionariesTask
                 }
                 Console.WriteLine("************************************************\n");
                 string Course_code = Console.ReadLine().ToUpper();
+                
+               
                 if (Courses.ContainsKey(Course_code))
                 {
-                    Console.WriteLine("\n************************************************");
-                    Console.WriteLine("List of Students Enrolled in This Couse ");
-        
-                    foreach (var courseCode in Courses)
-                    {
-                        var students = courseCode.Value;
-                        foreach (string stud in students)
-                            Console.WriteLine(stud.ToString());
-                    }
+                    Console.WriteLine("List of Students Enrolled in " + Course_code);
+                    foreach (string stud in Courses[Course_code])
+                        Console.WriteLine(stud.ToString());
                     Console.WriteLine("************************************************\n");
                     Console.WriteLine("Enter Student Name ");
-                    student = Console.ReadLine().ToLower();
+                    student = Console.ReadLine();
                     if (Courses[Course_code].Contains(student))
                     {
                         Courses[Course_code].Remove(student);
                         Console.WriteLine(student + " Removed Successfully");
+                        for(int i = 0; i<waitlist.Count;i++)
+                        {
+                            if(Course_code == waitlist[i].course)
+                            {
+                                Courses[Course_code].Add(waitlist[i].studentName);
+                                Console.WriteLine(waitlist[i].studentName + " Added from waiting list to " + Course_code.ToUpper());
+                                return;
+                            }
+                        }
                     }
                     else
                     {
@@ -305,14 +310,11 @@ namespace DictionariesTask
                 {
                     Console.WriteLine("\n************************************************");
                     Console.WriteLine("List of Students Enrolled in This Couse ");
-
-                    foreach (var courseCode in Courses)
-                    {
-                        var students = courseCode.Value;
-                        foreach (string stud in students)
-                            Console.WriteLine(stud.ToString());
-                    }
+                   
+                    foreach (string stud in Courses[Course_code])
+                        Console.WriteLine(stud.ToString());
                     Console.WriteLine("************************************************\n");
+                  
                 }
                 else
                 {
